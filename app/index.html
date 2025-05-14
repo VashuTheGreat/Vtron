@@ -6,5 +6,8 @@
 <body>
 <h1>Welcome to Vtron!</h1>
 <button onclick="AndroidBridge.showToast('Hello from Web!')">Show Toast</button>
+<button onclick="vtron.scheduleTask('vibrate', 5000)">Vibrate after 5s</button>
+<button onclick="vtron.scheduleTask('notify:Reminder|Meeting at 7PM', 10000)">Notify after 10s</button>
+
 </body>
 </html>

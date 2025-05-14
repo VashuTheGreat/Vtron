@@ -8,6 +8,16 @@
 <button>hello</button>
 <button onclick="vtron.vibrate()">Vibrate Device</button>
 <button onclick="vtron.showNotificationFromWeb('Hello User', 'This is from your HTML app!')">Notify Me</button>
+<button onclick="vtron.pickFile()">Pick a File</button>
+
+<button onclick="vtron.scheduleTask('vibrate', 5000)">Vibrate after 5s</button>
+<button onclick="vtron.scheduleTask('notify:Reminder|Meeting at 7PM', 10000)">Notify after 10s</button>
+<script>
+    function onFilePicked(path) {
+       console.log("File selected:", path);
+       document.body.innerHTML += `<p>Selected: ${path}</p>`;
+    }
+</script>
 
 
 </body>

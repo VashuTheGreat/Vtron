@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
@@ -42,6 +44,19 @@ public class MainActivity extends AppCompatActivity {
         webView.addJavascriptInterface(new VtronBridge(this), "vtron");
 
         webView.loadUrl("file:///android_asset/index.html");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                String filePath = uri.toString();
+                webView.evaluateJavascript("onFilePicked('" + filePath + "')", null);
+            }
+        }
     }
 
 
