@@ -1,24 +1,158 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Vtron Test</title>
-</head>
-<body style="text-align:center; margin-top:100px;">
-<h1>Vtron Vibration Test</h1>
-<button>hello</button>
-<button onclick="vtron.vibrate()">Vibrate Device</button>
-<button onclick="vtron.showNotificationFromWeb('Hello User', 'This is from your HTML app!')">Notify Me</button>
-<button onclick="vtron.pickFile()">Pick a File</button>
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Vtron Test</title>-->
+<!--</head>-->
+<!--<body style="text-align:center; margin-top:100px;">-->
+<!--<h1>Vtron Vibration Test</h1>-->
+<!--<button>hello</button>-->
+<!--<button onclick="vtron.vibrate()">Vibrate Device</button>-->
+<!--<button onclick="vtron.showNotificationFromWeb('Hello User', 'This is from your HTML app!')">Notify Me</button>-->
+<!--<button onclick="vtron.pickFile()">Pick a File</button>-->
 
-<button onclick="vtron.scheduleTask('vibrate', 5000)">Vibrate after 5s</button>
-<button onclick="vtron.scheduleTask('notify:Reminder|Meeting at 7PM', 10000)">Notify after 10s</button>
+<!--<button onclick="vtron.scheduleTask('vibrate', 5000)">Vibrate after 5s</button>-->
+<!--<button onclick="vtron.scheduleTask('notify:Reminder|Meeting at 7PM', 10000)">Notify after 10s</button>-->
+
+<!--<button onclick="window.vtron.toggleFlashlight()">Toggle Flashlight</button>-->
+<!--<button onclick="showBattery()">Show Battery %</button>-->
+<!--<p id="batteryLevel"></p>-->
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vtron Control Center</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: #121212;
+          color: #fff;
+          text-align: center;
+          padding: 20px;
+        }
+
+        h1 {
+          margin-top: 20px;
+          color: #00ffe7;
+        }
+
+        .section {
+          margin: 30px 0;
+        }
+
+        button {
+          background-color: #1f1f1f;
+          color: #00ffe7;
+          border: 1px solid #00ffe7;
+          border-radius: 8px;
+          padding: 12px 20px;
+          margin: 10px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        button:hover {
+          background-color: #00ffe7;
+          color: #000;
+        }
+
+        #batteryLevel {
+          font-size: 18px;
+          margin-top: 10px;
+          color: #ffc107;
+        }
+
+        .toast {
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #323232;
+          color: #fff;
+          padding: 14px 25px;
+          border-radius: 8px;
+          opacity: 0;
+          transition: opacity 0.4s ease-in-out;
+          z-index: 1000;
+        }
+
+        .toast.show {
+          opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<h1>⚙️ Vtron Control Panel</h1>
+
+<div class="section">
+    <button onclick="vtron.vibrate(); showToast('Device Vibrated')">Vibrate</button>
+    <button onclick="vtron.showNotificationFromWeb('Hello from Web', 'This is your HTML App!')">Send Notification</button>
+    <button onclick="vtron.pickFile()">Pick a File</button>
+</div>
+
+<div class="section">
+    <button onclick="vtron.scheduleTask('vibrate', 5000); showToast('Scheduled Vibration in 5s')">Vibrate in 5s</button>
+    <button onclick="vtron.scheduleTask('notify:Reminder|Meeting at 7PM', 10000); showToast('Scheduled Notification in 10s')">Notify in 10s</button>
+</div>
+
+<div class="section">
+    <button onclick="vtron.toggleFlashlight(); showToast('Toggled Flashlight')">Toggle Flashlight</button>
+    <button onclick="showBattery()">Check Battery</button>
+    <p id="batteryLevel">Battery: ...</p>
+</div>
+
+<div id="toast" class="toast">This is a toast</div>
+
 <script>
+    function showBattery() {
+      const level = vtron.getBatteryLevel(); // Assuming it returns int
+      document.getElementById("batteryLevel").innerText = "Battery: " + level + "%";
+      showToast("Battery: " + level + "%");
+    }
+
     function onFilePicked(path) {
-       console.log("File selected:", path);
-       document.body.innerHTML += `<p>Selected: ${path}</p>`;
+      showToast("File Picked: " + path);
+      document.body.innerHTML += `<p style="color: #ccc;">📁 Selected: ${path}</p>`;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.innerText = message;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
     }
 </script>
 
-
 </body>
 </html>
+
+
+
+
+<!--<script>-->
+<!--    function onFilePicked(path) {-->
+<!--       console.log("File selected:", path);-->
+<!--       document.body.innerHTML += `<p>Selected: ${path}</p>`;-->
+<!--    }-->
+
+<!--     function showBattery() {-->
+<!--        const level = window.vtron.getBatteryLevel();-->
+<!--        document.getElementById("batteryLevel").innerText = "Battery: " + level + "%";-->
+<!--    }-->
+<!--</script>-->
+
+
+<!--</body>-->
+<!--</html>-->
